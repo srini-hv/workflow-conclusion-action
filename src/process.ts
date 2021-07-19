@@ -1,5 +1,5 @@
 import {Context} from '@actions/github/lib/context';
-import {setOutput, exportVariable, getInput} from '@actions/core';
+import {setOutput, exportVariable, getInput, debug} from '@actions/core';
 import {Octokit} from '@technote-space/github-action-helper/dist/types';
 import {Utils} from '@technote-space/github-action-helper';
 import {Logger} from '@technote-space/github-action-log-helper';
@@ -32,8 +32,11 @@ export const getWorkflowConclusion = (conclusions: Array<string>): string => CON
 
 export const execute = async(logger: Logger, octokit: Octokit, context: Context): Promise<void> => {
   const jobs        = await getJobs(octokit, context);
+  debug(`Jobs in debug: '${jobs}'`);
   const conclusions = getJobConclusions(jobs);
+  debug(`Conclusions in debug: '${conclusions}'`);
   const conclusion  = getWorkflowConclusion(conclusions);
+  debug(`Conclusion in debug: '${conclusion}'`);
 
   logger.startProcess('Jobs: ');
   console.log(jobs);
